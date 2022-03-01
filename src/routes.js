@@ -3,7 +3,7 @@ export const Routes = {
 
     // **  ------------ SuperAdmin -------------------
     SuperAdminDashboardOverview: { path: "/superadmin" },
-
+    AdminsManage: { path: "/manage/admins" },
 
 
     DashboardOverview: { path: "/" },

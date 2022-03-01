@@ -60,6 +60,12 @@ import SuperSidebar from "../SuperUserUtil/components/components/Sidebar";
 import SuperNavbar from "../SuperUserUtil/components/components/Navbar";
 import SuperFooter from "../SuperUserUtil/components/components/Footer";
 import SuperPreloader from "../SuperUserUtil/components/components/Preloader";
+import AdminsManage from '../SuperUserUtil/components/pages/dashboard/Manage/AdminsManage';
+import ClientManage from '../SuperUserUtil/components/pages/dashboard/Manage/ClientManage';
+import CompaniesManage from '../SuperUserUtil/components/pages/dashboard/Manage/CompaniesManage';
+import RegisterCompany from '../SuperUserUtil/components/pages/dashboard/Manage/RegisterCompany';
+import EmployeeManage from '../SuperUserUtil/components/pages/dashboard/Manage/EmployeeManage';
+
 
 
 const HomePage = () => {
@@ -259,6 +265,11 @@ const HomePage = () => {
 
     // ** Super Admin Pages
     <SuperAdminRoute exact path='/superadmin' component={SuperAdminDashboardOverview} />
+    <SuperAdminRoute exact path='/manage/admins' component={AdminsManage} />
+    <SuperAdminRoute exact path='/manage/clients' component={ClientManage} />
+    <SuperAdminRoute exact path='/manage/companies' component={CompaniesManage} />
+    <SuperAdminRoute exact path='/manage/employees' component={EmployeeManage} />
+    <SuperAdminRoute exact path='/manage/companies/:id' component={RegisterCompany} />
     <SuperAdminRoute exact path='/superadmin/upgrade'  component={Upgrade} />
     <SuperAdminRoute exact path='/superadmin/transaction' component={Transactions} />
     <SuperAdminRoute exact path='/superadmin/settings' component={Settings} />

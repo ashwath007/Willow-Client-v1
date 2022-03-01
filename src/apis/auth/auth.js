@@ -48,7 +48,7 @@ export const adminLoginSubmit = (data) => {
         });
 }
 export const adminLogoutSubmit = () => {
-    return axios.post(`https://localhost:8000/api/web/route/logout/superadmin`, { withCredentials: true })
+    return axios.post(`https://localhost:8000/api/web/route/logout/superadmin`, { status: 'Logout' }, { withCredentials: true })
         .then(res => {
             return res;
         })

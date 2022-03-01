@@ -55,7 +55,7 @@ const SuperAdminDashboardOverview =  () => {
       </div>
 
       <Row className="justify-content-md-center">
-        <Col xs={12} className="mb-4 d-none d-sm-block">
+        {/* <Col xs={12} className="mb-4 d-none d-sm-block">
           <SalesValueWidget
             title="Sales Value"
             value="10,567"
@@ -68,11 +68,11 @@ const SuperAdminDashboardOverview =  () => {
             value="10,567"
             percentage={10.57}
           />
-        </Col>
+        </Col> */}
         <Col xs={12} sm={6} xl={4} className="mb-4">
           <CounterWidget
-            category="Customers"
-            title="345k"
+            category="Admins"
+            title="5"
             period="Feb 1 - Apr 1"
             percentage={18.2}
             icon={faChartLine}
@@ -82,8 +82,8 @@ const SuperAdminDashboardOverview =  () => {
 
         <Col xs={12} sm={6} xl={4} className="mb-4">
           <CounterWidget
-            category="Revenue"
-            title="$43,594"
+            category="Employees"
+            title="25"
             period="Feb 1 - Apr 1"
             percentage={28.4}
             icon={faCashRegister}
@@ -92,9 +92,17 @@ const SuperAdminDashboardOverview =  () => {
         </Col>
 
         <Col xs={12} sm={6} xl={4} className="mb-4">
-          <CircleChartWidget
-            title="Traffic Share"
-            data={trafficShares} />
+        <CounterWidget
+            category="Clients"
+            title="180"
+            period="Feb 1 - Apr 1"
+            percentage={28.4}
+            icon={faCashRegister}
+            iconColor="shape-tertiary"
+          />
+          {/* <CircleChartWidget
+            title="Clients"
+            data={trafficShares} /> */}
         </Col>
       </Row>
 

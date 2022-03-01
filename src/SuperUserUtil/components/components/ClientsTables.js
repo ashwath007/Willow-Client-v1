@@ -10,6 +10,7 @@ import { pageVisits, pageTraffic, pageRanking } from "../data/tables";
 import transactions from "../data/transactions";
 import commands from "../data/commands";
 import { getAllAdmins } from "../../../apis/Admins/manage";
+import { getAllClients } from "../../../apis/Clients/manage";
 
 const ValueChange = ({ value, suffix }) => {
   const valueIcon = value < 0 ? faAngleDown : faAngleUp;
@@ -198,12 +199,12 @@ export const TransactionsTable = () => {
   const [allAdminData, setallAdminData] = useState([]);
   
   const getAllAdminsHere = () => {
-    getAllAdmins().then(res => {
+    getAllClients().then(res => {
       if(res.data.error){
         console.log(res.data.error);
       }
-      console.log(res.data.alladmins);
-      setallAdminData(res.data.alladmins)
+      console.log(res.data.allClients);
+      setallAdminData(res.data.allClients)
     })
     .catch(err => {
       console.log(err);
@@ -217,7 +218,7 @@ export const TransactionsTable = () => {
   const totalTransactions = transactions.length;
 
   const TableRow = (props) => {
-    const { invoiceNumber, subscription, price, issueDate, dueDate, status,admin_name,admin_id, admin_region, admin_status } = props;
+    const { invoiceNumber, subscription, price, issueDate, dueDate, status,client_id,client_status,client_name,client_company_name,client_description,client_company_type,client_company_size, admin_region, admin_status } = props;
     const statusVariant = status === "Paid" ? "success"
       : status === "Due" ? "warning"
         : status === "Canceled" ? "danger" : "primary";
@@ -226,32 +227,32 @@ export const TransactionsTable = () => {
       <tr>
         <td>
           <Card.Link as={Link} to={Routes.Invoice.path} className="fw-normal">
-            {admin_id}
+            {client_id}
           </Card.Link>
         </td>
         <td>
           <span className="fw-normal">
-            {admin_name}
+            {client_name}
           </span>
         </td>
         <td>
           <span className="fw-normal">
-            {admin_region}
+            {client_company_name}
           </span>
         </td>
         <td>
           <span className="fw-normal">
-            {0}
+            {client_company_type}
           </span>
         </td>
         <td>
           <span className="fw-normal">
-            {0}
+            {client_company_size}
           </span>
         </td>
         <td>
-          <span className={`fw-normal text-${statusVariant}`}>
-          {admin_status}
+          <span className={`fw-normal text-danger`}>
+          {client_status}
           </span>
         </td>
         <td>
@@ -286,9 +287,9 @@ export const TransactionsTable = () => {
             <tr>
               <th className="border-bottom">Id</th>
               <th className="border-bottom">Name</th>
-              <th className="border-bottom">Region</th>
+              <th className="border-bottom">Company</th>
+              <th className="border-bottom">Division</th>
               <th className="border-bottom">No. Emp</th>
-              <th className="border-bottom">No. Client</th>
               <th className="border-bottom">Status</th>
 
               <th className="border-bottom">Action</th>
