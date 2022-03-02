@@ -65,6 +65,7 @@ import ClientManage from '../SuperUserUtil/components/pages/dashboard/Manage/Cli
 import CompaniesManage from '../SuperUserUtil/components/pages/dashboard/Manage/CompaniesManage';
 import RegisterCompany from '../SuperUserUtil/components/pages/dashboard/Manage/RegisterCompany';
 import EmployeeManage from '../SuperUserUtil/components/pages/dashboard/Manage/EmployeeManage';
+import SisterCompanyManage from '../SuperUserUtil/components/pages/dashboard/Manage/SisterCompanyManage';
 
 
 
@@ -270,6 +271,7 @@ const HomePage = () => {
     <SuperAdminRoute exact path='/manage/companies' component={CompaniesManage} />
     <SuperAdminRoute exact path='/manage/employees' component={EmployeeManage} />
     <SuperAdminRoute exact path='/manage/companies/:id' component={RegisterCompany} />
+    <SuperAdminRoute exact path='/manage/companies/:id/company/:company_id' component={SisterCompanyManage} />
     <SuperAdminRoute exact path='/superadmin/upgrade'  component={Upgrade} />
     <SuperAdminRoute exact path='/superadmin/transaction' component={Transactions} />
     <SuperAdminRoute exact path='/superadmin/settings' component={Settings} />

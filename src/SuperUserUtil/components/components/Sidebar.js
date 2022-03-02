@@ -126,7 +126,7 @@ export default (props = {}) => {
               </Nav.Link>
             </div>
             <Nav className="flex-column pt-3 pt-md-0">
-              <NavItem title="Super Admin" link={Routes.Presentation.path} image={ReactHero} />
+              <NavItem title="Super Admin" link='/superadmin' image={ReactHero} />
               <CollapsableNavItem eventKey="manage/" title="Manage" icon={faFileAlt}>
               <NavItem title="Admins" link="/manage/admins" icon={faChartPie} />
               <NavItem title="Clients" link="/manage/clients" icon={faChartPie} />

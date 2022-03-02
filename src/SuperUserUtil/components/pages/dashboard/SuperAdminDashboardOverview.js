@@ -8,15 +8,38 @@ import { CounterWidget, CircleChartWidget, BarChartWidget, TeamMembersWidget, Pr
 // import { PageVisitsTable } from "../../components/Tables";
 import { trafficShares, totalOrders } from "../../data/charts";
 import { dummyCheck } from "../../../../apis/auth/auth";
+import { getAllDashStats } from "../../../../apis/SuperAdmins/starts";
 
 const SuperAdminDashboardOverview =  () => {
 
+  const [errorDash, seterrorDash] = useState(false);
+
+
+
+  const [allStats, setallStats] = useState([]);
+
+
+
+  const getAllStats = () => {
+    getAllDashStats()
+    .then(res => {
+      console.log(res.data)
+      if(res.data.error){
+        seterrorDash(true);
+      }
+      else{
+        setallStats(res.data);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+
 
   useEffect(() => {
-    
-    dummyCheck().then(res => {
-      console.log(res.data);
-    })
+    getAllStats()
+
     
   }, [])
   
@@ -69,12 +92,12 @@ const SuperAdminDashboardOverview =  () => {
             percentage={10.57}
           />
         </Col> */}
-        <Col xs={12} sm={6} xl={4} className="mb-4">
+        {allStats ? (
+          <>
+           <Col xs={12} sm={6} xl={4} className="mb-4">
           <CounterWidget
             category="Admins"
-            title="5"
-            period="Feb 1 - Apr 1"
-            percentage={18.2}
+            title={allStats.count_admins}
             icon={faChartLine}
             iconColor="shape-secondary"
           />
@@ -83,8 +106,7 @@ const SuperAdminDashboardOverview =  () => {
         <Col xs={12} sm={6} xl={4} className="mb-4">
           <CounterWidget
             category="Employees"
-            title="25"
-            period="Feb 1 - Apr 1"
+            title={allStats.count_employee}
             percentage={28.4}
             icon={faCashRegister}
             iconColor="shape-tertiary"
@@ -94,9 +116,7 @@ const SuperAdminDashboardOverview =  () => {
         <Col xs={12} sm={6} xl={4} className="mb-4">
         <CounterWidget
             category="Clients"
-            title="180"
-            period="Feb 1 - Apr 1"
-            percentage={28.4}
+            title={allStats.count_client}
             icon={faCashRegister}
             iconColor="shape-tertiary"
           />
@@ -104,6 +124,13 @@ const SuperAdminDashboardOverview =  () => {
             title="Clients"
             data={trafficShares} /> */}
         </Col>
+          </>
+        ) : (
+          null
+        )
+
+        }
+       
       </Row>
 
       <Row>

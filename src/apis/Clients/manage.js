@@ -30,3 +30,36 @@ export const getAClients = (id) => {
         console.log(err)
     });
 }
+
+
+
+// ** Create Sister Company
+export const createSysterCompany = (data) => {
+    return axios.post(`https://localhost:8000/api/web/route/create/sistercompany`, data, { withCredentials: true }).then(res => {
+        if (res) {
+            return res;
+        }
+    }).catch(err => {
+        console.log(err)
+    });
+}
+
+export const getAllCompamyList = (data) => {
+    return axios.post(`https://localhost:8000/api/web/route/get/client/all/companies`, data, { withCredentials: true }).then(res => {
+        if (res) {
+            return res;
+        }
+    }).catch(err => {
+        console.log(err)
+    });
+}
+
+export const getAllSisterCompamyList = (data) => {
+    return axios.post(`https://localhost:8000/api/web/route/get/client/all/companies/all/sistercompanies`, data, { withCredentials: true }).then(res => {
+        if (res) {
+            return res;
+        }
+    }).catch(err => {
+        console.log(err)
+    });
+}

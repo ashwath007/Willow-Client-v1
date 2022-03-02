@@ -22,7 +22,11 @@ function ClientManage() {
     const [description, setdescription] = useState('');
     const [selectregion, setselectregion] = useState('');
     const [selecttype, setselecttype] = useState('');
-    const [cname, setcname] = useState('')
+    const [cname, setcname] = useState('');
+    const [cdescription, setcdescription] = useState('');
+    const [cphone, setcphone] = useState('');
+    const [cemail, setcemail] = useState('');
+    const [caddress, setcaddress] = useState('')
     
     const [isSuccess, setisSuccess] = useState(false);
     const [isError, setisError] = useState(false);
@@ -65,7 +69,11 @@ function ClientManage() {
           password: password,
           client_company_size: selectregion,
           client_company_name: cname,
-          client_company_type: selecttype
+          client_company_type: selecttype,
+          company_description:cdescription,
+          company_email:cemail,
+          company_address: caddress,
+          company_phone: cphone
       }
       createClient(client_profile).then(res => { 
           console.log("Res ", res) 
@@ -144,8 +152,24 @@ function ClientManage() {
               Folder will be created by the company's name, So be careful
             </p>
             <Form.Group className="mb-3">
-    <Form.Label>Client Name</Form.Label>
+    <Form.Label>Company Name</Form.Label>
     <Form.Control  onChange={(e) => setcname(e.target.value)} type="email" placeholder="ABC Pvt Ltd" />
+  </Form.Group>
+            <Form.Group className="mb-3">
+    <Form.Label>Company Email</Form.Label>
+    <Form.Control  onChange={(e) => setcemail(e.target.value)} type="email" placeholder="ABC@gmail.com" />
+  </Form.Group>
+            <Form.Group className="mb-3">
+    <Form.Label>Company Phone</Form.Label>
+    <Form.Control  onChange={(e) => setcphone(e.target.value)} type="email" placeholder="685*******" />
+  </Form.Group>
+            <Form.Group className="mb-3">
+    <Form.Label>Company Address</Form.Label>
+    <Form.Control  onChange={(e) => setcaddress(e.target.value)} type="email" placeholder="ABC Pvt Ltd, Coimbatore - 641025" />
+  </Form.Group>
+  <Form.Group className="mb-3">
+    <Form.Label>Company Description</Form.Label>
+    <Form.Control  onChange={(e) => setcdescription(e.target.value)} as="textarea" rows="3" />
   </Form.Group>
   <Form.Group className="mb-3">
     <Form.Label>Select Company Size</Form.Label>
