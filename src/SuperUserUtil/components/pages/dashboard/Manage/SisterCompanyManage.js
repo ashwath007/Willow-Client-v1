@@ -6,7 +6,7 @@ import {getAllClients, getAllSisterCompamyList} from '../../../../../apis/Client
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Lottie from "lottie-react";
-import FolderIcon from "../../../../../assets/Common/folder.svg";
+import FolderIcon from "../../../../../assets/Common/folder.png";
 import { Menu, MenuItem, MenuButton, SubMenu } from '@szhsin/react-menu';
 
 function SisterCompanyManage({match}) {
@@ -56,8 +56,8 @@ function SisterCompanyManage({match}) {
       const ClientFolder = ({name, data}) => {
           return(
               <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/sis/${data._id}`}  style={{
-                  height: 80,
-                  width:120,
+                  height: 150,
+                  width:180,
                   borderRadius: 8,
                   marginBottom:8,
                   marginLeft:4
@@ -65,7 +65,8 @@ function SisterCompanyManage({match}) {
               }}>
                   <img src={FolderIcon} height={50}/>
                   <p style={{ 
-
+                      fontSize:12,
+                      fontWeight:'600'
                   }}>
                       {name}
                       </p>

@@ -6,7 +6,7 @@ import {getAllClients, getAllSisterCompamyAllPlans, getAllSisterCompamyList} fro
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Lottie from "lottie-react";
-import FolderIcon from "../../../../../assets/Common/folder.svg";
+import FolderIcon from "../../../../../assets/Common/folder.png";
 import { Menu, MenuItem, MenuButton, SubMenu } from '@szhsin/react-menu';
 
 function PlansManage({match}) {

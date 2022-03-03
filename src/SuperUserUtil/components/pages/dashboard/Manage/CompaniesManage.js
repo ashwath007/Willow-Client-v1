@@ -6,7 +6,8 @@ import {getAllClients} from '../../../../../apis/Clients/manage';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Lottie from "lottie-react";
-import FolderIcon from "../../../../../assets/Common/folder.svg";
+import FolderIcon from "../../../../../assets/Common/folder.png";
+import LockedFolder from "../../../../../assets/Common/secure.png";
 import { Menu, MenuItem, MenuButton, SubMenu } from '@szhsin/react-menu';
 
 function CompaniesManage() {
@@ -50,7 +51,28 @@ function CompaniesManage() {
         color: theme.palette.text.secondary,
       }));
 
+    
       const ClientFolder = ({name, data}) => {
+        if(data.client_status === 'Offline')
+      return(
+          <Link to={`/superadmin/manage/companies/${data.client_id}`}  style={{
+              height: 80,
+              width:120,
+              borderRadius: 8,
+              marginBottom:8,
+              marginLeft:4
+
+          }}>
+              <img src={FolderIcon} height={50}/>
+              <p style={{ 
+
+              }}>
+                  {name}
+                  </p>
+              
+          </Link>
+      )
+      else if(data.client_status === 'Online'){
           return(
               <Link to={`/superadmin/manage/companies/${data.client_id}`}  style={{
                   height: 80,
@@ -58,11 +80,11 @@ function CompaniesManage() {
                   borderRadius: 8,
                   marginBottom:8,
                   marginLeft:4
-
+  
               }}>
-                  <img src={FolderIcon} height={50}/>
+                  <img src={LockedFolder} height={50}/>
                   <p style={{ 
-
+  
                   }}>
                       {name}
                       </p>
@@ -70,6 +92,7 @@ function CompaniesManage() {
               </Link>
           )
       }
+  }
 
 
   return (

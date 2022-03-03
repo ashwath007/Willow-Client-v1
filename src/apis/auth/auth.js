@@ -25,6 +25,15 @@ export const isAlreadyAutheticated = () => {
         console.log(err)
     });
 }
+export const isAlreadyAutheticatedAdmin = () => {
+    return axios.get(`https://localhost:8000/api/web/route/check/admin`, { withCredentials: true }).then(res => {
+        if (res) {
+            return res;
+        }
+    }).catch(err => {
+        console.log(err)
+    });
+}
 
 
 // export const isAutheticated = () => {

@@ -70,7 +70,9 @@ import PlansManage from '../SuperUserUtil/components/pages/dashboard/Manage/Plan
 import Works from '../SuperUserUtil/components/pages/dashboard/Works/Works';
 import Accounts from '../SuperUserUtil/components/pages/dashboard/Accounts/Accounts';
 
-
+import AdminDashboardOverview from '../AdminUserUtil/components/pages/dashboard/DashboardOverview'
+import AdminSideBar from '../AdminUserUtil/components/components/Sidebar'
+import PickClients from '../AdminUserUtil/components/pages/dashboard/Manage/PickClients';
 
 const HomePage = () => {
 
@@ -234,7 +236,7 @@ const HomePage = () => {
       isAutheticated() && isAutheticated().role === 1 ? (
       <>
       <Preloader show={loaded ? false : true} />
-      <Sidebar />
+      <AdminSideBar />
   
       <main className="content">
         <Navbar />
@@ -294,8 +296,9 @@ const HomePage = () => {
     
     
     // ** Admin Pages
-    <RouteWithSidebar exact path='/employee' component={DashboardOverview} />
-    <RouteWithSidebar exact path={Routes.Upgrade.path} component={Upgrade} />
+    <AdminRoute exact path='/admin' component={AdminDashboardOverview} />
+    <AdminRoute exact path='/admin/pick' component={PickClients} />
+    <AdminRoute exact path='/admin/plans' component={Upgrade} />
     <RouteWithSidebar exact path={Routes.Transactions.path} component={Transactions} />
     <RouteWithSidebar exact path={Routes.Settings.path} component={Settings} />
     <RouteWithSidebar exact path={Routes.BootstrapTables.path} component={BootstrapTables} />

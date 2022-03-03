@@ -136,7 +136,7 @@ export default (props = {}) => {
                 
                 </CollapsableNavItem>
               <NavItem title="Works" link="/superadmin/works"  icon={faInbox} />
-              <NavItem title="Transactions" icon={faHandHoldingUsd} link="/superadmin/transaction" />
+              {/* <NavItem title="Transactions" icon={faHandHoldingUsd} link="/superadmin/transaction" />
               <NavItem title="Settings" icon={faCog} link={Routes.Settings.path} />
               <NavItem external title="Calendar" link="https://demo.themesberg.com/volt-pro-react/#/calendar" target="_blank" badgeText="Pro" icon={faCalendarAlt} />
               <NavItem external title="Map" link="https://demo.themesberg.com/volt-pro-react/#/map" target="_blank" badgeText="Pro" icon={faMapPin} />
@@ -186,8 +186,7 @@ export default (props = {}) => {
                 <NavItem title="Tabs" link={Routes.Tabs.path} />
                 <NavItem title="Toasts" link={Routes.Toasts.path} />
                 <NavItem title="Tooltips" link={Routes.Tooltips.path} />
-              </CollapsableNavItem>
-              <NavItem external title="Themesberg" link="https://themesberg.com" target="_blank" image={ThemesbergLogo} />
+              </CollapsableNavItem> */}
               <Button onClick={userLogout} variant="secondary" className="upgrade-to-pro"><FontAwesomeIcon icon={faRocket} className="me-1" /> Logout</Button>
             </Nav>
           </div>

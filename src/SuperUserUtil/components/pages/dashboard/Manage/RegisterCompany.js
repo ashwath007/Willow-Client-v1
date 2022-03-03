@@ -19,7 +19,7 @@ import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import {Link} from 'react-router-dom';
-import FolderIcon from "../../../../../assets/Common/folder.svg";
+import FolderIcon from "../../../../../assets/Common/folder.png";
 
 
 
