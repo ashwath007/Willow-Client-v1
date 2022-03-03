@@ -2,28 +2,31 @@ import React, {useState, useEffect,useHistory, useCallback} from 'react';
 import {Link} from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import {getAllClients} from '../../../../../apis/Clients/manage';
+import {getAllClients, getAllSisterCompamyAllPlans, getAllSisterCompamyList} from '../../../../../apis/Clients/manage';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Lottie from "lottie-react";
 import FolderIcon from "../../../../../assets/Common/folder.svg";
 import { Menu, MenuItem, MenuButton, SubMenu } from '@szhsin/react-menu';
 
-function CompaniesManage() {
+function PlansManage({match}) {
 
     const [allClients, setallClients] = useState([]);
     const [isError, setisError] = useState(false);
     const [isSuccess, setisSuccess] = useState(false);
 
-    const getClientsHere = () => {
-        getAllClients().then(res => {
+    const getAllSisterCompamyListHere = () => {
+        const data = {
+            sisId: match.params.sister_id
+        }
+        getAllSisterCompamyAllPlans(data).then(res => {
             if(res.data.error){
                 setisError(true)
             }
-            else if(res.data.allClients){
-                console.log("All Client data", res.data.allClients);
+            else if(res.data.sisterPlans){
+                console.log("All Plans data", res.data.sisterPlans);
                 setisSuccess(true)
-                setallClients(res.data.allClients)
+                setallClients(res.data.sisterPlans)
               }
         })
         .catch(err => {
@@ -33,7 +36,7 @@ function CompaniesManage() {
 
 
     useEffect(() => {
-        getClientsHere();
+        getAllSisterCompamyListHere();
     }, [])
 
 
@@ -52,12 +55,12 @@ function CompaniesManage() {
 
       const ClientFolder = ({name, data}) => {
           return(
-              <Link to={`/superadmin/manage/companies/${data.client_id}`}  style={{
+              <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/sis/${data._id}`}  style={{
                   height: 80,
                   width:120,
                   borderRadius: 8,
                   marginBottom:8,
-                  marginLeft:4
+                  marginLeft:4,
 
               }}>
                   <img src={FolderIcon} height={50}/>
@@ -77,16 +80,15 @@ function CompaniesManage() {
     <>
         <Grid container spacing={1} style={{marginTop:8}} item xs={6} md={8}>
 
-   
-        {allClients && allClients.map((item, index) => {
+        {allClients.plans && allClients.plans.map((item, index) => {
             return(
                 <Grid item>
                     <Item style={{
-                        height:100,
-                        width:140,
+                        height:120,
+                        width:160,
                         alignItems: 'center',
                     }}>
-                        <ClientFolder name={item.client_company_name} data={item}/>
+                        <ClientFolder name={item} data={item}/>
                     </Item>
                 </Grid>
             )
@@ -97,4 +99,4 @@ function CompaniesManage() {
   )
 }
 
-export default CompaniesManage
+export default PlansManage;

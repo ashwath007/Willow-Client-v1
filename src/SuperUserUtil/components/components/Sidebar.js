@@ -128,14 +128,14 @@ export default (props = {}) => {
             <Nav className="flex-column pt-3 pt-md-0">
               <NavItem title="Super Admin" link='/superadmin' image={ReactHero} />
               <CollapsableNavItem eventKey="manage/" title="Manage" icon={faFileAlt}>
-              <NavItem title="Admins" link="/manage/admins" icon={faChartPie} />
-              <NavItem title="Clients" link="/manage/clients" icon={faChartPie} />
-              <NavItem title="Employees" link="/manage/employees" icon={faChartPie} />
-              <NavItem title="Companies" link="/manage/companies" icon={faChartPie} />
-              <NavItem title="Accounts" link="/manage/accounts" icon={faChartPie} />
+              <NavItem title="Admins" link="/superadmin/manage/admins" icon={faChartPie} />
+              <NavItem title="Clients" link="/superadmin/manage/clients" icon={faChartPie} />
+              <NavItem title="Employees" link="/superadmin/manage/employees" icon={faChartPie} />
+              <NavItem title="Companies" link="/superadmin/manage/companies" icon={faChartPie} />
+              <NavItem title="Accounts" link="/superadmin/manage/accounts" icon={faChartPie} />
                 
                 </CollapsableNavItem>
-              <NavItem external title="Messages" link="https://demo.themesberg.com/volt-pro-react/#/messages" target="_blank" badgeText="Pro" icon={faInbox} />
+              <NavItem title="Works" link="/superadmin/works"  icon={faInbox} />
               <NavItem title="Transactions" icon={faHandHoldingUsd} link="/superadmin/transaction" />
               <NavItem title="Settings" icon={faCog} link={Routes.Settings.path} />
               <NavItem external title="Calendar" link="https://demo.themesberg.com/volt-pro-react/#/calendar" target="_blank" badgeText="Pro" icon={faCalendarAlt} />

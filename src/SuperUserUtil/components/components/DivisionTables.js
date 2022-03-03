@@ -10,7 +10,7 @@ import { pageVisits, pageTraffic, pageRanking } from "../data/tables";
 import transactions from "../data/transactions";
 import commands from "../data/commands";
 import { getAllAdmins } from "../../../apis/Admins/manage";
-import { getAllClients } from "../../../apis/Clients/manage";
+import { getAllClients, getAllSisterCompamyDivisionList, getAllSisterCompamyList } from "../../../apis/Clients/manage";
 import { getAllEmployee } from "../../../apis/Employees/manage";
 
 const ValueChange = ({ value, suffix }) => {
@@ -194,10 +194,35 @@ export const RankingTable = () => {
   );
 };
 
-export const TransactionsTable = () => {
+export const TransactionsTable = (props) => {
 
   
   const [allAdminData, setallAdminData] = useState([]);
+
+    const [allSisterDivision, setallSisterDivision] = useState([]);
+
+    const [isError, setisError] = useState(false);
+    const [isSuccess, setisSuccess] = useState(false);
+
+  const getAllSisterCompamyListHere = () => {
+    const data = {
+        company_id: props.company_id
+    }
+    console.log("Props - ", props.company_id);
+    getAllSisterCompamyDivisionList(data).then(res => {
+        if(res.data.error){
+            setisError(true)
+        }
+        else if(res.data.sistercompany){
+            console.log("All Client data", res.data.sistercompany);
+            setisSuccess(true)
+            setallSisterDivision(res.data.sistercompany)
+          }
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
   
   const getAllAdminsHere = () => {
     getAllEmployee().then(res => {
@@ -213,47 +238,45 @@ export const TransactionsTable = () => {
   }
 
   useEffect(() => {
-    getAllAdminsHere();
+    getAllSisterCompamyListHere()
   }, [])
   
   const totalTransactions = transactions.length;
 
   const TableRow = (props) => {
-    const { employee_name, employee_id,employee_email,employement_type,work,employee_status,status,client_id,client_status,client_name,client_company_name,client_description,client_company_type,client_company_size, admin_region, admin_status } = props;
-    const statusVariant = status === "Paid" ? "success"
-      : status === "Due" ? "warning"
-        : status === "Canceled" ? "danger" : "primary";
+    const { division_name,division_category,division_type,plans,select_plans,seperate_billing_account, } = props;
+
 
     return (
-      <tr>
+      <tr className="mt-4">
         <td>
           <Card.Link as={Link} to={Routes.Invoice.path} className="fw-normal">
-            {employee_id}
+            {division_name}
           </Card.Link>
         </td>
         <td>
           <span className="fw-normal">
-            {employee_name}
+            {division_category}
           </span>
         </td>
         <td>
           <span className="fw-normal">
-            {work.length}
+            {plans.length}
           </span>
         </td>
         <td>
           <span className="fw-normal">
-            {employement_type}
+            {division_type}
           </span>
         </td>
         <td>
           <span className="fw-normal">
-            {employee_status}
+            {select_plans}
           </span>
         </td>
         <td>
           <span className={`fw-normal text-danger`}>
-          {employee_status}
+          {seperate_billing_account}
           </span>
         </td>
         <td>
@@ -286,18 +309,18 @@ export const TransactionsTable = () => {
         <Table hover className="user-table align-items-center">
           <thead>
             <tr>
-              <th className="border-bottom">Id</th>
-              <th className="border-bottom">Name</th>
-              <th className="border-bottom">Work</th>
-              <th className="border-bottom">Work Type</th>
-              <th className="border-bottom">No. Emp</th>
-              <th className="border-bottom">Status</th>
+              <th className="border-bottom">Divisions</th>
+              <th className="border-bottom">Category</th>
+              <th className="border-bottom">Active Plans</th>
+              <th className="border-bottom">Division Type</th>
+              <th className="border-bottom">Plan Selected</th>
+              <th className="border-bottom">Billing</th>
 
               <th className="border-bottom">Action</th>
             </tr>
           </thead>
           <tbody>
-        {allAdminData && allAdminData.map((item,index) => {
+        {allSisterDivision && allSisterDivision.map((item,index) => {
           return(
             <TableRow key={index} {...item} />
           )

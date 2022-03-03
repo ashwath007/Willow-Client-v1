@@ -63,3 +63,23 @@ export const getAllSisterCompamyList = (data) => {
         console.log(err)
     });
 }
+
+export const getAllSisterCompamyDivisionList = (data) => {
+    return axios.post(`https://localhost:8000/api/web/route/get/client/all/companies/all/division`, data, { withCredentials: true }).then(res => {
+        if (res) {
+            return res;
+        }
+    }).catch(err => {
+        console.log(err)
+    });
+}
+
+export const getAllSisterCompamyAllPlans = (data) => {
+    return axios.post(`https://localhost:8000/api/web/route/create/sistercompany/get/all/plans`, data, { withCredentials: true }).then(res => {
+        if (res) {
+            return res;
+        }
+    }).catch(err => {
+        console.log(err)
+    });
+}

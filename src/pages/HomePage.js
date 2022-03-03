@@ -66,6 +66,9 @@ import CompaniesManage from '../SuperUserUtil/components/pages/dashboard/Manage/
 import RegisterCompany from '../SuperUserUtil/components/pages/dashboard/Manage/RegisterCompany';
 import EmployeeManage from '../SuperUserUtil/components/pages/dashboard/Manage/EmployeeManage';
 import SisterCompanyManage from '../SuperUserUtil/components/pages/dashboard/Manage/SisterCompanyManage';
+import PlansManage from '../SuperUserUtil/components/pages/dashboard/Manage/PlansManage';
+import Works from '../SuperUserUtil/components/pages/dashboard/Works/Works';
+import Accounts from '../SuperUserUtil/components/pages/dashboard/Accounts/Accounts';
 
 
 
@@ -266,14 +269,26 @@ const HomePage = () => {
 
     // ** Super Admin Pages
     <SuperAdminRoute exact path='/superadmin' component={SuperAdminDashboardOverview} />
-    <SuperAdminRoute exact path='/manage/admins' component={AdminsManage} />
-    <SuperAdminRoute exact path='/manage/clients' component={ClientManage} />
-    <SuperAdminRoute exact path='/manage/companies' component={CompaniesManage} />
-    <SuperAdminRoute exact path='/manage/employees' component={EmployeeManage} />
-    <SuperAdminRoute exact path='/manage/companies/:id' component={RegisterCompany} />
-    <SuperAdminRoute exact path='/manage/companies/:id/company/:company_id' component={SisterCompanyManage} />
+    <SuperAdminRoute exact path='/superadmin/manage/admins' component={AdminsManage} />
+    <SuperAdminRoute exact path='/superadmin/manage/clients' component={ClientManage} />
+    <SuperAdminRoute exact path='/superadmin/manage/companies' component={CompaniesManage} />
+    <SuperAdminRoute exact path='/superadmin/manage/employees' component={EmployeeManage} />
+    <SuperAdminRoute exact path='/superadmin/manage/companies/:id' component={RegisterCompany} />
+    <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id' component={SisterCompanyManage} />
+    <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/sis/:sister_id' component={PlansManage} />
+
+    // ** Super Admin View Works
+    <SuperAdminRoute exact path='/superadmin/works' component={Works} />
+
+
+
+    // ** Super Admin View Accounts
+    <SuperAdminRoute exact path='/superadmin/transaction' component={Accounts} />
+
+
+
+
     <SuperAdminRoute exact path='/superadmin/upgrade'  component={Upgrade} />
-    <SuperAdminRoute exact path='/superadmin/transaction' component={Transactions} />
     <SuperAdminRoute exact path='/superadmin/settings' component={Settings} />
     <SuperAdminRoute exact path='/superadmin/tables' component={BootstrapTables} />
     

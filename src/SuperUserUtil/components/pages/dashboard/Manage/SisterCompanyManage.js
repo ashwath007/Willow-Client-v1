@@ -55,7 +55,7 @@ function SisterCompanyManage({match}) {
 
       const ClientFolder = ({name, data}) => {
           return(
-              <Link to={`/manage/companies/${data.client_id}`}  style={{
+              <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/sis/${data._id}`}  style={{
                   height: 80,
                   width:120,
                   borderRadius: 8,

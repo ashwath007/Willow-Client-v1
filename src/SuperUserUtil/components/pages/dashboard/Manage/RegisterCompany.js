@@ -53,7 +53,7 @@ function RegisterCompany({match}) {
 
   const ClientFolder = ({name, data}) => {
     return(
-        <Link to={`/manage/companies/${match.params.id}/company/${data.company_id}`}  style={{
+        <Link to={`/superadmin/manage/companies/${match.params.id}/company/${data.company_id}`}  style={{
             height: 80,
             width:120,
             borderRadius: 8,
@@ -309,7 +309,7 @@ function RegisterCompany({match}) {
         </Box>
       </Modal>
          
-            <TransactionsTable/>
+            <TransactionsTable company_id={match.params.id}/>
         </TabPanel>
         </Tabs>
        </div>
