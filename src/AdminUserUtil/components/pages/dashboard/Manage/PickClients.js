@@ -16,11 +16,11 @@ import { Alert } from "@mui/material";
 import FolderIcon from "../../../../../assets/Common/folder.png";
 import LockedFolder from "../../../../../assets/Common/secure.png";
 import OpenFolder from "../../../../../assets/Common/open-folder.png";
-
+import {TransactionsTable} from "../../../components/ClientsTables"
 
 import Tab from '@mui/material/Tab';
-
 import {getAllClients} from '../../../../../apis/Clients/manage'
+import { getAllClientAssignedAdmins } from '../../../../../apis/Admins/manage';
 
 
 function PickClients() {
@@ -76,7 +76,7 @@ function PickClients() {
       const ClientFolder = ({name, data}) => {
           if(data.client_status === 'Offline')
         return(
-            <Link to={`/superadmin/manage/companies/${data.client_id}`}  style={{
+            <Link  style={{
                 height: 80,
                 width:120,
                 borderRadius: 8,
@@ -97,7 +97,7 @@ function PickClients() {
         )
         else if(data.client_status === 'Online'){
             return(
-                <Link to={`/superadmin/manage/companies/${data.client_id}`}  style={{
+                <Link  style={{
                     height: 80,
                     width:120,
                     borderRadius: 8,
@@ -138,6 +138,7 @@ function PickClients() {
 
     useEffect(() => {
         getAllClientsHere()
+        getAllAssignedClientHere()
     }, [])
 
     function TabPanel(props) {
@@ -179,6 +180,22 @@ function PickClients() {
       setValue(newValue);
     };
 
+    const [allAssignedClientAdminMe, setallAssignedClientAdminMe] = useState([]);
+
+    const getAllAssignedClientHere = () => {
+      getAllClientAssignedAdmins()
+      .then(res => {
+          if(res.data.error){
+              setisError(true)
+          }
+          console.log("Hoo - ",res.data.allClientsInfo);
+          setallAssignedClientAdminMe(res.data.allClientsInfo);
+          setisSuccess(true)
+      })
+      .catch(err => {
+          console.log(err);
+      })
+    }
 
   return (
     <div>
@@ -226,10 +243,23 @@ function PickClients() {
         <Typography className="mt-4" style={{marginLeft:32}}>
           Pick Clients
         </Typography>
-        <Paper>
-      
-        </Paper>
+        <Grid container spacing={1} style={{margin:10}} item xs={6} md={8}>
+        {allAssignedClientAdminMe && allAssignedClientAdminMe.map((item, index) => {
+    return(
+        <Grid item>
+            <Item style={{
+                height:100,
+                width:140,
+                alignItems: 'center',
+            }}>
+                <ClientFolder name={item.client_company_name} data={item}/>
+            </Item>
+        </Grid>
+    )
+})}
+</Grid>
       </Paper>
+      <TransactionsTable/>
     </Box>  
       </TabPanel>
       <TabPanel value={value} index={1}>
