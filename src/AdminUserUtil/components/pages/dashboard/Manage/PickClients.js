@@ -16,7 +16,7 @@ import { Alert } from "@mui/material";
 import FolderIcon from "../../../../../assets/Common/folder.png";
 import LockedFolder from "../../../../../assets/Common/secure.png";
 import OpenFolder from "../../../../../assets/Common/open-folder.png";
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+
 
 import Tab from '@mui/material/Tab';
 
@@ -25,10 +25,6 @@ import {getAllClients} from '../../../../../apis/Clients/manage'
 
 function PickClients() {
 
-
-    function handleClick(e, data) {
-        console.log(data.foo);
-      }
 
     const [isSuccess, setisSuccess] = useState(false);
     const [isError, setisError] = useState(false);
@@ -80,86 +76,44 @@ function PickClients() {
       const ClientFolder = ({name, data}) => {
           if(data.client_status === 'Offline')
         return(
-            <div>
-                  <ContextMenuTrigger id="same_unique_identifier">
+            <Link to={`/superadmin/manage/companies/${data.client_id}`}  style={{
+                height: 80,
+                width:120,
+                borderRadius: 8,
+                marginBottom:8,
+                marginLeft:4,
+                textDecoration: 'none'
 
-        
-<Link to={`/superadmin/manage/companies/${data.client_id}`}  style={{
-    height: 80,
-    width:120,
-    borderRadius: 8,
-    marginBottom:8,
-    marginLeft:4,
-    textDecoration: 'none'
-
-
-}}>
-    <img src={FolderIcon} height={50}/>
-    <p style={{ 
-        color:'#000000',
-        textDecoration: 'none'
-    }}>
-        {name}
-        </p>
-    
-</Link>
-</ContextMenuTrigger>
-                    <ContextMenu id="same_unique_identifier">
-        <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-          ContextMenu Item 1
-        </MenuItem>
-        <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-          ContextMenu Item 2
-        </MenuItem>
-        <MenuItem divider />
-        <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-          ContextMenu Item 3
-        </MenuItem>
-      </ContextMenu>
-            </div>
-          
+            }}>
+                <img src={FolderIcon} height={50}/>
+                <p style={{ 
+                    color:'#000000',
+                    textDecoration: 'none'
+                }}>
+                    {name}
+                    </p>
+                
+            </Link>
         )
         else if(data.client_status === 'Online'){
             return(
-                <div>
-            <ContextMenuTrigger id="same_unique_identifier">
-
                 <Link to={`/superadmin/manage/companies/${data.client_id}`}  style={{
                     height: 80,
                     width:120,
                     borderRadius: 8,
                     marginBottom:8,
                     marginLeft:4,
-                textDecoration: 'none'
-
-
+                    textDecoration: 'none'
+    
                 }}>
                     <img src={LockedFolder} height={50}/>
                     <p style={{ 
-                    color:'#000000',
-
-                textDecoration: 'none'
+    textDecoration: 'none'
                     }}>
                         {name}
                         </p>
                     
                 </Link>
-                </ContextMenuTrigger>
-                <ContextMenu id="same_unique_identifier">
-                        <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-                        ContextMenu Item 1
-                        </MenuItem>
-                        <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-                        ContextMenu Item 2
-                        </MenuItem>
-                        <MenuItem divider />
-                        <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-                        ContextMenu Item 3
-                        </MenuItem>
-                    </ContextMenu>
-                    </div>
-    
-
             )
         }
     }
