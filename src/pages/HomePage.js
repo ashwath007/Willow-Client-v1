@@ -73,6 +73,7 @@ import Accounts from '../SuperUserUtil/components/pages/dashboard/Accounts/Accou
 import AdminDashboardOverview from '../AdminUserUtil/components/pages/dashboard/DashboardOverview'
 import AdminSideBar from '../AdminUserUtil/components/components/Sidebar'
 import PickClients from '../AdminUserUtil/components/pages/dashboard/Manage/PickClients';
+import PickEmployee from '../AdminUserUtil/components/pages/dashboard/Manage/PickEmployee';
 
 const HomePage = () => {
 
@@ -297,8 +298,8 @@ const HomePage = () => {
     
     // ** Admin Pages
     <AdminRoute exact path='/admin' component={AdminDashboardOverview} />
-    <AdminRoute exact path='/admin/pick' component={PickClients} />
-    <AdminRoute exact path='/admin/plans' component={Upgrade} />
+    <AdminRoute exact path='/admin/pick/client' component={PickClients} />
+    <AdminRoute exact path='/admin/pick/employee' component={PickEmployee} />
     <RouteWithSidebar exact path={Routes.Transactions.path} component={Transactions} />
     <RouteWithSidebar exact path={Routes.Settings.path} component={Settings} />
     <RouteWithSidebar exact path={Routes.BootstrapTables.path} component={BootstrapTables} />

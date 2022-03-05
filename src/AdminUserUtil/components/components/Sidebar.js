@@ -126,10 +126,11 @@ export default (props = {}) => {
               </Nav.Link>
             </div>
             <Nav className="flex-column pt-3 pt-md-0">
-              <NavItem title="Admin" link='/admin'/>
+              <NavItem title="Admin"/>
 
               <NavItem title="Dashboard" link='/admin' icon={faChartPie} />
-              <NavItem title="Pick Work" link='/admin/pick' icon={faInbox} />
+              <NavItem title="Pick Work" link='/admin/pick/client' icon={faInbox} />
+              <NavItem title="Pick Employee" link='/admin/pick/employee' icon={faInbox} />
               {/* <NavItem title="Transactions" icon={faHandHoldingUsd} link={Routes.Transactions.path} />
               <NavItem title="Settings" icon={faCog} link={Routes.Settings.path} />
               <NavItem external title="Calendar" link="https://demo.themesberg.com/volt-pro-react/#/calendar" target="_blank" badgeText="Pro" icon={faCalendarAlt} />

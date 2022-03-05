@@ -15,8 +15,20 @@ import { styled } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import { getAllClientAssignedAdmins } from "../../../../apis/Admins/manage";
+import {Link} from 'react-router-dom';
+import FolderIcon from "../../../../assets/Common/folder.png";
+import LockedFolder from "../../../../assets/Common/secure.png";
+
+import Breadcrumbs from '@mui/material/Breadcrumbs';
 
 const AdminDashboardOverview =  () => {
+
+  useEffect(() => {
+    
+    getAllAssignedClientHere()
+  }, [])
+  
 
 
   
@@ -67,7 +79,71 @@ const AdminDashboardOverview =  () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const [isSuccess, setisSuccess] = useState(false);
+  const [isError, setisError] = useState(false);
+  const [allAssignedClientAdminMe, setallAssignedClientAdminMe] = useState([]);
 
+
+
+    const getAllAssignedClientHere = () => {
+      getAllClientAssignedAdmins()
+      .then(res => {
+          if(res.data.error){
+              setisError(true)
+          }
+          console.log("Hoo - ",res.data.allClientsInfo);
+          setallAssignedClientAdminMe(res.data.allClientsInfo);
+          setisSuccess(true)
+      })
+      .catch(err => {
+          console.log(err);
+      })
+    }
+
+    const ClientFolder = ({name, data}) => {
+      if(data.client_status === 'Offline')
+    return(
+        <Link  style={{
+            height: 80,
+            width:120,
+            borderRadius: 8,
+            marginBottom:8,
+            marginLeft:4,
+            textDecoration: 'none'
+
+        }}>
+            <img src={FolderIcon} height={50}/>
+            <p style={{ 
+                color:'#000000',
+                textDecoration: 'none'
+            }}>
+                {name}
+                </p>
+            
+        </Link>
+    )
+    else if(data.client_status === 'Online'){
+        return(
+            <Link  style={{
+                height: 80,
+                width:120,
+                borderRadius: 8,
+                marginBottom:8,
+                marginLeft:4,
+                textDecoration: 'none'
+
+            }}>
+                <img src={LockedFolder} height={50}/>
+                <p style={{ 
+textDecoration: 'none'
+                }}>
+                    {name}
+                    </p>
+                
+            </Link>
+        )
+    }
+}
 
   return (
     <>
@@ -155,7 +231,7 @@ const AdminDashboardOverview =  () => {
   </Grid>
       </div>
 
-      <Row className="justify-content-md-center">
+      {/* <Row className="justify-content-md-center">
         <Col xs={12} className="mb-4 d-none d-sm-block">
           <SalesValueWidget
             title="Sales Value"
@@ -197,9 +273,9 @@ const AdminDashboardOverview =  () => {
             title="Traffic Share"
             data={trafficShares} />
         </Col>
-      </Row>
+      </Row> */}
 
-      <Row>
+      {/* <Row>
         <Col xs={12} xl={12} className="mb-4">
           <Row>
             <Col xs={12} xl={8} className="mb-4">
@@ -239,11 +315,40 @@ const AdminDashboardOverview =  () => {
             </Col>
           </Row>
         </Col>
-      </Row>
+      </Row> */}
       </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link underline="hover" color="inherit" href="/">
+          Clients
+        </Link>
+        <Link
+          underline="hover"
+          color="inherit"
+          href="/getting-started/installation/"
+        >
+          All
+        </Link>
+      </Breadcrumbs>
+      <Paper style={{height:300}}>
+       
+       <Grid container spacing={1} style={{margin:10,marginTop:50}} item xs={6} md={8}>
+       {allAssignedClientAdminMe && allAssignedClientAdminMe.map((item, index) => {
+   return(
+       <Grid item>
+           <Item style={{
+               height:100,
+               width:140,
+               alignItems: 'center',
+           }}>
+               <ClientFolder name={item.client_company_name} data={item}/>
+           </Item>
+       </Grid>
+   )
+})}
+</Grid>
+     </Paper>
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three

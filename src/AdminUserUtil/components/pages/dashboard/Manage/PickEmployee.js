@@ -15,15 +15,18 @@ import Tabs from '@mui/material/Tabs';
 import { Alert } from "@mui/material";
 import FolderIcon from "../../../../../assets/Common/folder.png";
 import LockedFolder from "../../../../../assets/Common/secure.png";
+import EmpIcon from '../../../../../assets/Common/man.png'
+import LockEmpIcon from '../../../../../assets/Common/lockman.png'
 import OpenFolder from "../../../../../assets/Common/open-folder.png";
-import {TransactionsTable} from "../../../components/ClientsTables"
+import {TransactionsTable} from "../../../components/AllEmpTables"
 
 import Tab from '@mui/material/Tab';
 import {getAllClients} from '../../../../../apis/Clients/manage'
 import { getAllClientAssignedAdmins } from '../../../../../apis/Admins/manage';
+import { getAllEmployee } from '../../../../../apis/Employees/manage';
 
 
-function PickClients() {
+function PickEmployee() {
 
 
     const [isSuccess, setisSuccess] = useState(false);
@@ -69,12 +72,12 @@ function PickClients() {
     const successAlert = () => {
         if(isSuccess)
         return (
-          <Alert severity="success">Available Clients Updated</Alert>
+          <Alert severity="success">Available Employees Updated</Alert>
         )
       }
 
       const ClientFolder = ({name, data}) => {
-          if(data.client_status === 'Offline')
+          if(data.employee_status === 'Offline')
         return(
             <Link  style={{
                 height: 80,
@@ -85,7 +88,7 @@ function PickClients() {
                 textDecoration: 'none'
 
             }}>
-                <img src={FolderIcon} height={50}/>
+                <img src={EmpIcon} height={50}/>
                 <p style={{ 
                     color:'#000000',
                     textDecoration: 'none'
@@ -95,7 +98,7 @@ function PickClients() {
                 
             </Link>
         )
-        else if(data.client_status === 'Online'){
+        else if(data.employee_status === 'Online'){
             return(
                 <Link  style={{
                     height: 80,
@@ -106,7 +109,7 @@ function PickClients() {
                     textDecoration: 'none'
     
                 }}>
-                    <img src={LockedFolder} height={50}/>
+                    <img src={LockEmpIcon} height={50}/>
                     <p style={{ 
     textDecoration: 'none'
                     }}>
@@ -119,16 +122,17 @@ function PickClients() {
     }
       
     const getAllClientsHere = () => {
-        getAllClients()
+        getAllEmployee()
         .then(res => {
+            console.log("All Client-",res.data);
             if(res.data.error){
                 setisError(true)
-                seterrorMsg("Couldn't get the Client Data")
+                seterrorMsg("Couldn't get the Employee Data")
             }
             else{
-                console.log("All Client-",res.data.allClients);
+                console.log("All Client-",res.data.allEmp);
                 setisSuccess(true)
-                setallClientData(res.data.allClients)
+                setallClientData(res.data.allEmp)
             }
         })
         .catch(err => {
@@ -138,7 +142,7 @@ function PickClients() {
 
     useEffect(() => {
         getAllClientsHere()
-        getAllAssignedClientHere()
+        // getAllAssignedClientHere()
     }, [])
 
     function TabPanel(props) {
@@ -205,9 +209,9 @@ function PickClients() {
 <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="External" {...a11yProps(0)} />
-          <Tab label="Internal" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="All Employees" {...a11yProps(0)} />
+          <Tab label="My Employees" {...a11yProps(1)} />
+          <Tab label="See Work assigned" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -233,7 +237,7 @@ function PickClients() {
                 width:140,
                 alignItems: 'center',
             }}>
-                <ClientFolder name={item.client_company_name} data={item}/>
+                <ClientFolder name={item.employee_name} data={item}/>
             </Item>
         </Grid>
     )
@@ -241,7 +245,7 @@ function PickClients() {
 </Grid>
       <Paper>
         <Typography className="mt-4" style={{marginLeft:32}}>
-          Pick Clients
+          Pick Employees
         </Typography>
         <Grid container spacing={1} style={{margin:10}} item xs={6} md={8}>
         {allAssignedClientAdminMe && allAssignedClientAdminMe.map((item, index) => {
@@ -292,4 +296,4 @@ function PickClients() {
   )
 }
 
-export default PickClients
+export default PickEmployee
