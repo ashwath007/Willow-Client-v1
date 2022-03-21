@@ -83,6 +83,18 @@ export const setAdminDetails = (data, next) => {
 
 // ** -----------------------------------------------------------
 
+// Amin Logout Here
+
+export const adminAdminLogoutSubmit = () => {
+    return axios.post(`https://localhost:8000/api/web/route/logout/admin`, { status: 'Logout' }, { withCredentials: true })
+        .then(res => {
+            return res;
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
 
 
 

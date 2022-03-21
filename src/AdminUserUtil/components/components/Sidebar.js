@@ -12,6 +12,7 @@ import { Routes } from "../../../routes";
 import ThemesbergLogo from "../assets/img/themesberg.svg";
 import ReactHero from "../assets/img/technologies/react-hero-logo.svg";
 import ProfilePicture from "../assets/img/team/profile-picture-3.jpg";
+import { adminAdminLogoutSubmit, clearUserToken } from "../../../apis/auth/auth";
 // import { adminLogoutSubmit, clearUserToken } from "../apis/auth/auth";
 
 export default (props = {}) => {
@@ -72,21 +73,21 @@ export default (props = {}) => {
     );
   };
 
-  // const [isLogoutSuccess, setisLogoutSuccess] = useState(false);
+  const [isLogoutSuccess, setisLogoutSuccess] = useState(false);
 
   const userLogout = (e) => {
-    // e.preventDefault();
-    // adminLogoutSubmit().then(res => {
-    //   console.log(res);
-    //     if(res.data.msg){
-    //       clearUserToken(() => {
-    //         setisLogoutSuccess(true)
-    //       })
-    //     }
-    // })
-    // .catch(err => {
-    //   console.log(err)
-    // })
+    e.preventDefault();
+    adminAdminLogoutSubmit().then(res => {
+      console.log(res);
+        if(res.data.msg){
+          clearUserToken(() => {
+            setisLogoutSuccess(true)
+          })
+        }
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 
   // const redirectToLogin = () => {
@@ -131,6 +132,7 @@ export default (props = {}) => {
               <NavItem title="Dashboard" link='/admin' icon={faChartPie} />
               <NavItem title="Pick Work" link='/admin/pick/client' icon={faInbox} />
               <NavItem title="Pick Employee" link='/admin/pick/employee' icon={faInbox} />
+              <NavItem title="Status" link='/admin/work/status' icon={faInbox} />
               {/* <NavItem title="Transactions" icon={faHandHoldingUsd} link={Routes.Transactions.path} />
               <NavItem title="Settings" icon={faCog} link={Routes.Settings.path} />
               <NavItem external title="Calendar" link="https://demo.themesberg.com/volt-pro-react/#/calendar" target="_blank" badgeText="Pro" icon={faCalendarAlt} />

@@ -17,6 +17,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { getAllEmployee } from "../../../apis/Employees/manage";
+import { assignEmployeeToAdminHere } from "../../../apis/Admins/manage";
 
 const ValueChange = ({ value, suffix }) => {
   const valueIcon = value < 0 ? faAngleDown : faAngleUp;
@@ -230,21 +231,21 @@ export const TransactionsTable = () => {
   const [isSuccess, setisSuccess] = useState(false);
   const [isError, setisError] = useState(false);
 
-//   const assignClientForAdmin = (e, client_id) => {
-//     console.log(client_id);
-//     const data = {
-//         client_id: client_id
-//     }
-//     assignClientToAdminHere(data)
-//     .then(res => {
-//         if(res.data.error){
-//             console.log(res.data.error);
-//         }
-//         else{
-//             setisSuccess(true)
-//         }
-//     })
-//   }
+  const assignClientForAdmin = (e, emp_id) => {
+    console.log(emp_id);
+    const data = {
+      emp_id: emp_id
+    }
+    assignEmployeeToAdminHere(data)
+    .then(res => {
+        if(res.data.error){
+            console.log(res.data.error);
+        }
+        else{
+            setisSuccess(true)
+        }
+    })
+  }
 
 
 //   const unassignClientForAdmin = (e, client_id) => {
@@ -270,7 +271,7 @@ export const TransactionsTable = () => {
   
 
   const TableRow = (props) => {
-    const { employement_type, employee_status, employee_name, employee_email, dueDate, status,client_id,client_status,client_name,client_company_name,client_description,client_company_type,client_company_size, admin_region, admin_status } = props;
+    const { employement_type, employee_status, employee_name, employee_email, employee_id, status,client_id,client_status,client_name,client_company_name,client_description,client_company_type,client_company_size, admin_region, admin_status } = props;
     const statusVariant = status === "Paid" ? "success"
       : status === "Due" ? "warning"
         : status === "Canceled" ? "danger" : "primary";
@@ -311,7 +312,7 @@ export const TransactionsTable = () => {
             </Dropdown.Toggle>
             <Dropdown.Menu>
          
-              <Dropdown.Item onClick={() => {}}>
+              <Dropdown.Item onClick={(e) => {assignClientForAdmin(e, employee_id)}}>
                 <FontAwesomeIcon icon={faEye} className="me-2" /> Assign For me
               </Dropdown.Item>
               <Dropdown.Item>

@@ -136,6 +136,7 @@ export default (props = {}) => {
                 
                 </CollapsableNavItem>
               <NavItem title="Works" link="/superadmin/works"  icon={faInbox} />
+              <NavItem title="Approvals" link="/superadmin/approvals/works"  icon={faInbox} />
               {/* <NavItem title="Transactions" icon={faHandHoldingUsd} link="/superadmin/transaction" />
               <NavItem title="Settings" icon={faCog} link={Routes.Settings.path} />
               <NavItem external title="Calendar" link="https://demo.themesberg.com/volt-pro-react/#/calendar" target="_blank" badgeText="Pro" icon={faCalendarAlt} />

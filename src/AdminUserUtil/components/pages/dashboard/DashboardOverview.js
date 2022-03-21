@@ -19,14 +19,18 @@ import { getAllClientAssignedAdmins } from "../../../../apis/Admins/manage";
 import {Link} from 'react-router-dom';
 import FolderIcon from "../../../../assets/Common/folder.png";
 import LockedFolder from "../../../../assets/Common/secure.png";
+import EmpIcon from '../../../../assets/Common/man.png'
+import LockEmpIcon from '../../../../assets/Common/lockman.png'
 
 import Breadcrumbs from '@mui/material/Breadcrumbs';
+import { getAllEmployee } from "../../../../apis/Employees/manage";
 
 const AdminDashboardOverview =  () => {
 
   useEffect(() => {
     
     getAllAssignedClientHere()
+    getAllEmployeesHere()
   }, [])
   
 
@@ -83,6 +87,7 @@ const AdminDashboardOverview =  () => {
   const [isError, setisError] = useState(false);
   const [allAssignedClientAdminMe, setallAssignedClientAdminMe] = useState([]);
 
+  const [allEmployeeME, setallEmployeeME] = useState([]);
 
 
     const getAllAssignedClientHere = () => {
@@ -93,6 +98,22 @@ const AdminDashboardOverview =  () => {
           }
           console.log("Hoo - ",res.data.allClientsInfo);
           setallAssignedClientAdminMe(res.data.allClientsInfo);
+          setisSuccess(true)
+      })
+      .catch(err => {
+          console.log(err);
+      })
+    }
+
+
+    const getAllEmployeesHere = () => {
+      getAllEmployee()
+      .then(res => {
+          if(res.data.error){
+              setisError(true)
+          }
+          console.log("Hoo  Emp - ",res.data.allEmp);
+          setallEmployeeME(res.data.allEmp);
           setisSuccess(true)
       })
       .catch(err => {
@@ -134,6 +155,51 @@ const AdminDashboardOverview =  () => {
 
             }}>
                 <img src={LockedFolder} height={50}/>
+                <p style={{ 
+textDecoration: 'none'
+                }}>
+                    {name}
+                    </p>
+                
+            </Link>
+        )
+    }
+}
+
+    const EmpFolder = ({name, data}) => {
+      if(data.employee_status === 'Offline')
+    return(
+        <Link  style={{
+            height: 80,
+            width:120,
+            borderRadius: 8,
+            marginBottom:8,
+            marginLeft:4,
+            textDecoration: 'none'
+
+        }}>
+            <img src={EmpIcon} height={50}/>
+            <p style={{ 
+                color:'#000000',
+                textDecoration: 'none'
+            }}>
+                {name}
+                </p>
+            
+        </Link>
+    )
+    else if(data.employee_status === 'Online'){
+        return(
+            <Link  style={{
+                height: 80,
+                width:120,
+                borderRadius: 8,
+                marginBottom:8,
+                marginLeft:4,
+                textDecoration: 'none'
+
+            }}>
+                <img src={LockEmpIcon} height={50}/>
                 <p style={{ 
 textDecoration: 'none'
                 }}>
@@ -351,7 +417,22 @@ textDecoration: 'none'
      </Paper>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+      <Grid container spacing={1} style={{margin:10,marginTop:50}} item xs={6} md={8}>
+       {allEmployeeME && allEmployeeME.map((item, index) => {
+   return(
+       <Grid item>
+         {/* {console.log(item.employee_name) } */}
+           <Item style={{
+               height:100,
+               width:140,
+               alignItems: 'center',
+           }}>
+               <EmpFolder name={item.employee_name} data={item}/>
+           </Item>
+       </Grid>
+   )
+})}
+</Grid>
       </TabPanel>
       <TabPanel value={value} index={3}>
         Item Three

@@ -74,6 +74,7 @@ import AdminDashboardOverview from '../AdminUserUtil/components/pages/dashboard/
 import AdminSideBar from '../AdminUserUtil/components/components/Sidebar'
 import PickClients from '../AdminUserUtil/components/pages/dashboard/Manage/PickClients';
 import PickEmployee from '../AdminUserUtil/components/pages/dashboard/Manage/PickEmployee';
+import WorkPlatform from '../SuperUserUtil/components/pages/dashboard/Manage/WorkPlatform';
 
 const HomePage = () => {
 
@@ -279,6 +280,7 @@ const HomePage = () => {
     <SuperAdminRoute exact path='/superadmin/manage/companies/:id' component={RegisterCompany} />
     <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id' component={SisterCompanyManage} />
     <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/sis/:sister_id' component={PlansManage} />
+    <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/workplatforrm' component={WorkPlatform} />
 
     // ** Super Admin View Works
     <SuperAdminRoute exact path='/superadmin/works' component={Works} />

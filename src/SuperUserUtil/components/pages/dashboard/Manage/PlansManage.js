@@ -79,7 +79,7 @@ function PlansManage({match}) {
 
     <>
         <Grid container spacing={1} style={{marginTop:8}} item xs={6} md={8}>
-
+            
         {allClients.plans && allClients.plans.map((item, index) => {
             return(
                 <Grid item>

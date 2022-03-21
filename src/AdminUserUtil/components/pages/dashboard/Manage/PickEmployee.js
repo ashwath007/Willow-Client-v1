@@ -1,10 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCashRegister, faChartLine, faCloudUploadAlt, faPlus, faRocket, faTasks, faUserShield } from '@fortawesome/free-solid-svg-icons';
-import { Col, Row, Button, Dropdown, ButtonGroup } from '@themesberg/react-bootstrap';
 import {Link} from 'react-router-dom';
-
-import { PageVisitsTable } from "../../components/Tables";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { Typography } from "@mui/material";
@@ -13,21 +9,44 @@ import { styled } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import { Alert } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import FolderIcon from "../../../../../assets/Common/folder.png";
 import LockedFolder from "../../../../../assets/Common/secure.png";
 import EmpIcon from '../../../../../assets/Common/man.png'
 import LockEmpIcon from '../../../../../assets/Common/lockman.png'
 import OpenFolder from "../../../../../assets/Common/open-folder.png";
 import {TransactionsTable} from "../../../components/AllEmpTables"
-
 import Tab from '@mui/material/Tab';
+import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
 import {getAllClients} from '../../../../../apis/Clients/manage'
-import { getAllClientAssignedAdmins } from '../../../../../apis/Admins/manage';
+import { getAllClientAssignedAdmins, getAllEmployeeAssignedAdmins } from '../../../../../apis/Admins/manage';
 import { getAllEmployee } from '../../../../../apis/Employees/manage';
 
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 function PickEmployee() {
 
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
     const [isSuccess, setisSuccess] = useState(false);
     const [isError, setisError] = useState(false);
@@ -35,13 +54,31 @@ function PickEmployee() {
 
     const [allClientData, setallClientData] = useState([]);
 
+    function getStyles(name, personName, theme) {
+      return {
+        fontWeight:
+          personName.indexOf(name) === -1
+            ? theme.typography.fontWeightRegular
+            : theme.typography.fontWeightMedium,
+      };
+    }
+
     const createError = () => {
       if(isError)
       return (
         <Alert severity="error">{errorMsg}</Alert>
       )
     }
-  
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+      PaperProps: {
+        style: {
+          maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+          width: 250,
+        },
+      },
+    };
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -142,7 +179,8 @@ function PickEmployee() {
 
     useEffect(() => {
         getAllClientsHere()
-        // getAllAssignedClientHere()
+        getAllAssignedEmployeeHere()
+        getAllClientNameList()
     }, [])
 
     function TabPanel(props) {
@@ -178,26 +216,51 @@ function PickEmployee() {
         };
       }
     
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = React.useState('');
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
 
     const [allAssignedClientAdminMe, setallAssignedClientAdminMe] = useState([]);
+    const [allAssignedEmployeeAdminMe, setallAssignedEmployeeAdminMe] = useState([]);
 
-    const getAllAssignedClientHere = () => {
-      getAllClientAssignedAdmins()
+    const [clientNameList, setclientNameList] = useState([]);
+
+    const [clientNameSelected, setclientNameSelected] = useState('');
+
+    const [personName, setPersonName] = React.useState([]);
+  
+    const handleChangeSelectName = (event) => {
+      setclientNameSelected(event.target.value)
+    };
+
+
+    const getAllAssignedEmployeeHere = () => {
+        getAllEmployeeAssignedAdmins()
       .then(res => {
           if(res.data.error){
               setisError(true)
           }
-          console.log("Hoo - ",res.data.allClientsInfo);
-          setallAssignedClientAdminMe(res.data.allClientsInfo);
+          console.log("Hoo - ",res.data.allEmployeeInfo);
+          setallAssignedEmployeeAdminMe(res.data.allEmployeeInfo);
           setisSuccess(true)
       })
       .catch(err => {
           console.log(err);
+      })
+    }
+
+    const getAllClientNameList = () => {
+      getAllClientAssignedAdmins()
+      .then(res => {
+        if(res.data.error){
+          setisError(true)
+        }
+        setclientNameList(res.data.allClientsInfo)        
+      })
+      .catch(err => {
+        setisError(true)
       })
     }
 
@@ -270,19 +333,57 @@ function PickEmployee() {
       <Paper style={{height:300}}>
        
         <Grid container spacing={1} style={{margin:10,marginTop:10}} item xs={6} md={8}>
-        {allAssignedClientAdminMe && allAssignedClientAdminMe.map((item, index) => {
+        {allAssignedEmployeeAdminMe && allAssignedEmployeeAdminMe.map((item, index) => {
     return(
-        <Grid item>
+        <Grid item onClick={handleOpen}>
             <Item style={{
                 height:100,
                 width:140,
                 alignItems: 'center',
             }}>
-                <ClientFolder name={item.client_company_name} data={item}/>
+                <ClientFolder name={item.employee_name} data={item}/>
             </Item>
         </Grid>
     )
 })}
+<Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Assign Client
+          </Typography>
+          <TextField
+          required
+          id="outlined-required"
+          label="Message to Employee"
+          defaultValue="Short message about the client"
+          style={{ 
+            width:300,
+            marginTop:20
+          }}
+        />
+       <FormControl style={{width:300, marginTop:10}}>
+  <InputLabel id="demo-simple-select-label">Select Client To Assign</InputLabel>
+  <Select
+    labelId="demo-simple-select-label"
+    id="demo-simple-select"
+    value={clientNameSelected}
+    label="Select Client"
+    onChange={handleChangeSelectName}
+  >
+    {clientNameList && clientNameList.map((name) => {
+      return <MenuItem value={name.client_name}>{name.client_name}</MenuItem>
+    })
+    }
+
+  </Select>
+</FormControl>
+        </Box>
+      </Modal>
 </Grid>
       </Paper>
       </TabPanel>

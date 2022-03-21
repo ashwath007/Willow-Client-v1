@@ -80,7 +80,7 @@ function SisterCompanyManage({match}) {
 
     <>
         <Grid container spacing={1} style={{marginTop:8}} item xs={6} md={8}>
-
+        
    
         {allClients && allClients.map((item, index) => {
             return(

@@ -31,10 +31,31 @@ export const getAllClientAssignedAdmins = () => {
     });
 }
 
+export const getAllEmployeeAssignedAdmins = () => {
+    return axios.get(`https://localhost:8000/api/web/route/get/all/employee/assigned`, { withCredentials: true }).then(res => {
+        if (res) {
+            return res;
+        }
+    }).catch(err => {
+        console.log(err)
+    });
+}
+
 
 
 export const assignClientToAdminHere = (data) => {
     return axios.post(`https://localhost:8000/api/web/route/assign/client/admin/clientstatus`, data, { withCredentials: true }).then(res => {
+        if (res) {
+            return res;
+        }
+    }).catch(err => {
+        console.log(err)
+    });
+}
+
+
+export const assignEmployeeToAdminHere = (data) => {
+    return axios.post(`https://localhost:8000/api/web/route/assign/employee/admin/employeestatus`, data, { withCredentials: true }).then(res => {
         if (res) {
             return res;
         }
