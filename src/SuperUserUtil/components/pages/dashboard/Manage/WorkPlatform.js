@@ -6,8 +6,13 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Col, Row, Card, Form, Container, InputGroup } from '@themesberg/react-bootstrap';
 import Button from '@mui/material/Button';
-import { createFolderNow } from '../../../../../apis/SuperAdmins/folder';
+import { createFolderNow, getAllFolderDetails } from '../../../../../apis/SuperAdmins/folder';
 import Alert from '@mui/material/Alert';
+import {Link} from 'react-router-dom';
+import FolderIcon from "../../../../../assets/Common/folder.png";
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
 
 const style = {
     position: 'absolute',
@@ -30,6 +35,13 @@ function WorkPlatform({match}) {
 
     const parent_folder = match.params.sister_id;
 
+    const Item = styled(Paper)(({ theme }) => ({
+        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+      }));
 
     const handleClick = (e, data) => {
         setitem(data)
@@ -63,6 +75,32 @@ function WorkPlatform({match}) {
     const [isError, setisError] = useState(false);
     const [isSuccess, setisSuccess] = useState(false);
 
+    const [allFlderMain, setallFlderMain] = useState([]);
+
+   const getAllFolderData = () => {
+        const data = {
+            sisId: match.params.sister_id
+        }
+        getAllFolderDetails(data).then(res => {
+            if(res.data.error){
+                setisError(true)
+            }
+            else if(res.data.allFolder){
+                console.log("All Folder data", res.data.allFolder);
+                setallFlderMain(res.data.allFolder)
+              }
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
+    useEffect(() => {
+      
+        getAllFolderData()
+     
+    }, [isSuccess])
+    
 
     const isErrorShow = () => {
         if(isError){
@@ -81,14 +119,18 @@ function WorkPlatform({match}) {
     }
 
     useEffect(() => {
-        if(isSuccess)
+        if(isSuccess){
             setTimeout(() => {
                 setisSuccess(false)
             }, 3000);
-        else if(isError)
+        }
+        
+        else if(isError){
             setTimeout(() => {
                 setisError(false)
             }, 3000);
+        }
+       
     }, [isSuccess,isError])
     
 
@@ -106,12 +148,38 @@ function WorkPlatform({match}) {
         createFolderNow(data).then(res => {
             if(res.error){
                 setisError(true)
+                handleClose()
+
             }
             setisSuccess(true)
+            handleClose()
         })
         .catch(err => {
             console.log(err);
         })
+    }
+
+
+    const ClientFolder = ({name, data}) => {
+        console.log("Name -> ",name);
+        return(
+            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}`}  style={{
+                height: 80,
+                width:120,
+                borderRadius: 8,
+                marginBottom:8,
+                marginLeft:4,
+
+            }}>
+                <img src={FolderIcon} height={50}/>
+                <p style={{ 
+
+                }}>
+                    {name}
+                    </p>
+                
+            </Link>
+        )
     }
 
     return (
@@ -167,13 +235,31 @@ function WorkPlatform({match}) {
         <div className="well" style={{
             width:'100%',
             height:600,
-            backgroundColor:'#FF8383',
+            backgroundColor:'#00003B',
             borderRadius:12,
             alignSelf:'center',
             borderWidth:5,
             border: '1px solid rgba(0, 0, 0, 0.05)'
         }}>
 
+<>
+        <Grid container spacing={1} style={{marginTop:8,margin:10}} item xs={6} md={8}>
+
+        {allFlderMain && allFlderMain.map((item, index) => {
+            return(
+                <Grid item>
+                    <Item style={{
+                        height:120,
+                        width:160,
+                        alignItems: 'center',
+                    }}>
+                        <ClientFolder name={item.name} data={item}/>
+                    </Item>
+                </Grid>
+            )
+        })}
+  </Grid>
+    </>
 
         </div>
       </ContextMenuTrigger>
