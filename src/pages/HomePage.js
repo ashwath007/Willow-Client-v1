@@ -280,7 +280,7 @@ const HomePage = () => {
     <SuperAdminRoute exact path='/superadmin/manage/companies/:id' component={RegisterCompany} />
     <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id' component={SisterCompanyManage} />
     <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/sis/:sister_id' component={PlansManage} />
-    <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/workplatforrm' component={WorkPlatform} />
+    <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/workplatforrm/sis/:sister_id' component={WorkPlatform} />
 
     // ** Super Admin View Works
     <SuperAdminRoute exact path='/superadmin/works' component={Works} />

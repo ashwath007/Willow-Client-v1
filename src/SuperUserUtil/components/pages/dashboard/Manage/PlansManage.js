@@ -9,6 +9,7 @@ import Lottie from "lottie-react";
 import FolderIcon from "../../../../../assets/Common/folder.png";
 import { Menu, MenuItem, MenuButton, SubMenu } from '@szhsin/react-menu';
 
+
 function PlansManage({match}) {
 
     const [allClients, setallClients] = useState([]);
@@ -55,7 +56,7 @@ function PlansManage({match}) {
 
       const ClientFolder = ({name, data}) => {
           return(
-              <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/sis/${data._id}`}  style={{
+              <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}`}  style={{
                   height: 80,
                   width:120,
                   borderRadius: 8,
@@ -79,7 +80,7 @@ function PlansManage({match}) {
 
     <>
         <Grid container spacing={1} style={{marginTop:8}} item xs={6} md={8}>
-            
+
         {allClients.plans && allClients.plans.map((item, index) => {
             return(
                 <Grid item>
