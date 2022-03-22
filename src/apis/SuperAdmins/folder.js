@@ -29,3 +29,13 @@ export const getAllFolderDetails = (data) => {
         console.log(err)
     });
 }
+
+export const getAFile = (fileID) => {
+    return axios.get(`https://localhost:8000/api/web/route/create/a/file/${fileID}`, { withCredentials: true }).then(res => {
+        if (res) {
+            return res;
+        }
+    }).catch(err => {
+        console.log(err)
+    });
+}

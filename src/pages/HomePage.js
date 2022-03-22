@@ -83,6 +83,7 @@ import firebase from 'firebase/app'
 import { initializeApp } from "firebase/app";
 import 'firebase/database'
 import 'firebase/storage'
+import ShowFile from '../SuperUserUtil/components/pages/dashboard/Manage/ShowFile';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDMvYBf27e2gEzU4-5NA5jBi05kxZ8qIsY",
@@ -308,6 +309,7 @@ const HomePage = () => {
     <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/sis/:sister_id' component={PlansManage} />
     <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/workplatforrm/sis/:sister_id' component={WorkPlatform} />
     <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/workplatforrm/sis/:sister_id/inner' component={InnerWorkPlatform} />
+    <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/workplatforrm/sis/:sister_id/inner/showfile/:fileID' component={ShowFile} />
 
     // ** Super Admin View Works
     <SuperAdminRoute exact path='/superadmin/works' component={Works} />

@@ -23,7 +23,7 @@ import Dropzone from 'react-dropzone'
 import firebase from 'firebase/app'
 import { v4 as uuidv4 } from 'uuid';
 import LinearProgress from '@mui/material/LinearProgress';
-
+import FileViewer from 'react-file-viewer';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -206,7 +206,7 @@ function WorkPlatform({match}) {
     const ClientFolder = ({name, data}) => {
         console.log("Name -> ",name);
         return(
-            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner`}  style={{
+            <Link file={data.filefolder_url} type={data.fileType} to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner`}  style={{
                 height: 80,
                 width:120,
                 borderRadius: 8,
@@ -225,11 +225,15 @@ function WorkPlatform({match}) {
         )
     }
 
+
+  
+
+
     const ClientFile = ({name, data}) => {
         console.log("Name -> ",name);
         if(data.fileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         return(
-            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner`}  style={{
+            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner/showfile/${data._id}`}  style={{
                 height: 80,
                 width:120,
                 borderRadius: 8,
