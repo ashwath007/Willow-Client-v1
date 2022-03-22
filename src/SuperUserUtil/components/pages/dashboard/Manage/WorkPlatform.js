@@ -6,16 +6,23 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Col, Row, Card, Form, Container, InputGroup } from '@themesberg/react-bootstrap';
 import Button from '@mui/material/Button';
-import { createFolderNow, getAllFolderDetails } from '../../../../../apis/SuperAdmins/folder';
+import { createFileNow, createFolderNow, getAllFolderDetails } from '../../../../../apis/SuperAdmins/folder';
 import Alert from '@mui/material/Alert';
 import {Link} from 'react-router-dom';
 import FolderIcon from "../../../../../assets/Common/folder.png";
+import FolderIconExcel from "../../../../../assets/Common/xls.png";
+import FolderIconPdf from "../../../../../assets/Common/pdf.png";
+import FolderIconWord from "../../../../../assets/Common/word.png";
+import FolderIconGDocs from "../../../../../assets/Common/google-docs.png";
+import FolderIconImage from "../../../../../assets/Common/image.png";
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import {useDropzone} from 'react-dropzone';
 import Dropzone from 'react-dropzone'
-
+import firebase from 'firebase/app'
+import { v4 as uuidv4 } from 'uuid';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const style = {
     position: 'absolute',
@@ -29,7 +36,20 @@ const style = {
     p: 4,
   };
   
-
+  function LinearProgressWithLabel(props) {
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ width: '100%', mr: 1 }}>
+          <LinearProgress variant="determinate" {...props} />
+        </Box>
+        <Box sx={{ minWidth: 35 }}>
+          <Typography variant="body2" color="text.secondary">{`${Math.round(
+            props.value,
+          )}%`}</Typography>
+        </Box>
+      </Box>
+    );
+  }
 
 function WorkPlatform({match}) {
 
@@ -205,9 +225,129 @@ function WorkPlatform({match}) {
         )
     }
 
+    const ClientFile = ({name, data}) => {
+        console.log("Name -> ",name);
+        if(data.fileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        return(
+            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner`}  style={{
+                height: 80,
+                width:120,
+                borderRadius: 8,
+                marginBottom:8,
+                marginLeft:4,
+
+            }}>
+                
+                <img src={FolderIconExcel} height={50}/>
+                <p style={{ 
+
+                }}>
+                    {name}
+                    </p>
+                
+            </Link>
+        )
+        else if(data.fileType === 'application/pdf')
+        return(
+            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner`}  style={{
+                height: 80,
+                width:120,
+                borderRadius: 8,
+                marginBottom:8,
+                marginLeft:4,
+
+            }}>
+                
+                <img src={FolderIconPdf} height={50}/>
+                <p style={{ 
+
+                }}>
+                    {name}
+                    </p>
+                
+            </Link>)
+        else if(data.fileType === 'image/png')
+        return(
+            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner`}  style={{
+                height: 80,
+                width:120,
+                borderRadius: 8,
+                marginBottom:8,
+                marginLeft:4,
+
+            }}>
+                
+                <img src={FolderIconImage} height={50}/>
+                <p style={{ 
+
+                }}>
+                    {name}
+                    </p>
+                
+            </Link>
+        )
+    }
+
+    const [isProgress, setisProgress] = useState(false)
+    const [progressStatus, setprogressStatus] = useState(0)
+    const [fileUploadURL, setfileUploadURL] = useState('')
+
+    const spinnerShow = () => {
+        return(
+            <Box sx={{ width: '100%' }} style={{
+                marginTop:35,
+                marginBottom:35
+            }}>
+            <LinearProgressWithLabel value={progressStatus} />
+          </Box>
+        )
+    }
+
 
     const autoUploadFile = (acceptedFiles) => {
         console.log('acceptedFiles: ',acceptedFiles)
+        let file = acceptedFiles[0];
+        var storage = firebase.storage();
+        var storageRef = storage.ref();
+        var uploadTask = storageRef.child(`product/image/${uuidv4()}/${file.name}`).put(file);
+      
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+          (snapshot) =>{
+            var progress = Math.round((snapshot.bytesTransferred/snapshot.totalBytes))*100
+            setprogressStatus(progress)
+            setisProgress(true)
+          },(error) =>{
+            throw error
+          },() =>{
+            // uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) =>{
+      
+            uploadTask.snapshot.ref.getDownloadURL().then((url) =>{
+                setfileUploadURL(url)
+                const data = {
+                    folderName:acceptedFiles[0].name,
+                    filefolder_url:url,
+                    folderparent:parent_folder,
+                    fileType:acceptedFiles[0].type
+                }
+                createFileNow(data).then(res => {
+                    if(res.error){
+                        setisError(true)
+        
+                    }
+                    setisSuccess(true)
+                    setisProgress(false)
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+                
+            })
+      
+         }
+       ) 
+
+
+
     }
 
     return (
@@ -258,33 +398,46 @@ function WorkPlatform({match}) {
       </Modal>
         </div>
       
-            
-            <Dropzone onDrop={acceptedFiles => autoUploadFile(acceptedFiles)} >
-  {({getRootProps, getInputProps}) => (
-    <section>
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        <div
-        style={{
-            width:'100%',
-            height:200,
-            backgroundColor:'#DDDDDD',
-            borderRadius:12,
-            alignSelf:'center',
-            borderWidth:5,
-            marginBottom:15,
-            textAlign:'center',
-        }}
-        >
-            <p>
-                Drop the file here
-            </p>
-        </div>
+            {!isProgress ?  (
+   <Dropzone onDrop={acceptedFiles => autoUploadFile(acceptedFiles)} >
+   {({getRootProps, getInputProps}) => (
+     <section>
+       <div {...getRootProps()}>
+         <input {...getInputProps()} />
+         <div
+         style={{
+             width:'100%',
+             height:200,
+             backgroundColor:'#DDDDDD',
+             borderRadius:12,
+             alignSelf:'center',
+             borderWidth:5,
+             marginBottom:15,
+             textAlign:'center',
+         }}
+         >
+             <p>
+                 Drop the file here
+             </p>
+         </div>
+ 
+       </div>
+     </section>
+   )}
+ </Dropzone>
+            ) : (
+                <div
+                style={{
+                    alignSelf:'center',
+                    justifyContent:'center'
+                }} >
+                {spinnerShow()}
+                </div>
+            )
 
-      </div>
-    </section>
-  )}
-</Dropzone>
+            }
+
+         
  
 
 <ContextMenuTrigger id="same_unique_identifier">
@@ -310,7 +463,13 @@ function WorkPlatform({match}) {
                         width:160,
                         alignItems: 'center',
                     }}>
+                        {item.fileorfolder === 'Folder' ? (
                         <ClientFolder name={item.name} data={item}/>
+
+                        ) : (
+                         <ClientFile name={item.name} data={item}/>
+                        )
+                        }
                     </Item>
                 </Grid>
             )

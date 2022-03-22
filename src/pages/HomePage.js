@@ -77,6 +77,31 @@ import PickEmployee from '../AdminUserUtil/components/pages/dashboard/Manage/Pic
 import WorkPlatform from '../SuperUserUtil/components/pages/dashboard/Manage/WorkPlatform';
 import InnerWorkPlatform from '../SuperUserUtil/components/pages/dashboard/Manage/InnerWorkPlatform';
 
+
+
+import firebase from 'firebase/app'
+import { initializeApp } from "firebase/app";
+import 'firebase/database'
+import 'firebase/storage'
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDMvYBf27e2gEzU4-5NA5jBi05kxZ8qIsY",
+  authDomain: "willow-static.firebaseapp.com",
+  projectId: "willow-static",
+  storageBucket: "willow-static.appspot.com",
+  messagingSenderId: "577456246342",
+  appId: "1:577456246342:web:fce2b17430d346311d8447",
+  measurementId: "G-KLQBSP4G71"
+};
+
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}else {
+  firebase.app(); // if already initialized, use that one
+}
+
+
 const HomePage = () => {
 
   
