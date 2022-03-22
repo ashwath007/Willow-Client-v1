@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react';
+import React,{useEffect,useState,useCallback} from 'react';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import './react-contextmenu.css';
 import Modal from '@mui/material/Modal';
@@ -13,6 +13,9 @@ import FolderIcon from "../../../../../assets/Common/folder.png";
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import {useDropzone} from 'react-dropzone';
+import Dropzone from 'react-dropzone'
+
 
 const style = {
     position: 'absolute',
@@ -32,6 +35,26 @@ function WorkPlatform({match}) {
 
 
     const [item, setitem] = useState('')
+
+
+
+    // ** File drop zone
+
+
+    const onDrop = useCallback(acceptedFiles => {
+        // Do something with the files
+      }, [])
+      const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+
+    // **
+
+
+
+
+
+
+
+
 
     const parent_folder = match.params.sister_id;
 
@@ -163,7 +186,7 @@ function WorkPlatform({match}) {
     const ClientFolder = ({name, data}) => {
         console.log("Name -> ",name);
         return(
-            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}`}  style={{
+            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner`}  style={{
                 height: 80,
                 width:120,
                 borderRadius: 8,
@@ -180,6 +203,11 @@ function WorkPlatform({match}) {
                 
             </Link>
         )
+    }
+
+
+    const autoUploadFile = (acceptedFiles) => {
+        console.log('acceptedFiles: ',acceptedFiles)
     }
 
     return (
@@ -229,13 +257,41 @@ function WorkPlatform({match}) {
         </Box>
       </Modal>
         </div>
+      
+            
+            <Dropzone onDrop={acceptedFiles => autoUploadFile(acceptedFiles)} >
+  {({getRootProps, getInputProps}) => (
+    <section>
+      <div {...getRootProps()}>
+        <input {...getInputProps()} />
+        <div
+        style={{
+            width:'100%',
+            height:200,
+            backgroundColor:'#DDDDDD',
+            borderRadius:12,
+            alignSelf:'center',
+            borderWidth:5,
+            marginBottom:15,
+            textAlign:'center',
+        }}
+        >
+            <p>
+                Drop the file here
+            </p>
+        </div>
 
+      </div>
+    </section>
+  )}
+</Dropzone>
+ 
 
 <ContextMenuTrigger id="same_unique_identifier">
         <div className="well" style={{
             width:'100%',
             height:600,
-            backgroundColor:'#00003B',
+            backgroundColor:'#C1C1C1',
             borderRadius:12,
             alignSelf:'center',
             borderWidth:5,
@@ -243,6 +299,7 @@ function WorkPlatform({match}) {
         }}>
 
 <>
+
         <Grid container spacing={1} style={{marginTop:8,margin:10}} item xs={6} md={8}>
 
         {allFlderMain && allFlderMain.map((item, index) => {
