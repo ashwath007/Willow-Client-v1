@@ -160,7 +160,8 @@ function WorkPlatform({match}) {
 
     useEffect(() => {
         getAllFolderData()
-        setInterval(() => {
+
+        setTimeout(() => {
           setreloadStatus(!reloadStatus)
         }, 1000);
     }, [reloadStatus,isSuccess])
