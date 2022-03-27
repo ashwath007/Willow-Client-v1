@@ -15,6 +15,7 @@ import FolderIconPdf from "../../../../../assets/Common/pdf.png";
 import FolderIconWord from "../../../../../assets/Common/word.png";
 import FolderIconGDocs from "../../../../../assets/Common/google-docs.png";
 import FolderIconImage from "../../../../../assets/Common/image.png";
+import FolderPPT from "../../../../../assets/Common/ppt.png"
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
@@ -24,6 +25,15 @@ import firebase from 'firebase/app'
 import { v4 as uuidv4 } from 'uuid';
 import LinearProgress from '@mui/material/LinearProgress';
 import FileViewer from 'react-file-viewer';
+import PhotoPhotoListfrom from '@mui/icons-material/List';
+import {
+    Menu,
+    MenuButton
+} from '@szhsin/react-menu';
+import '@szhsin/react-menu/dist/index.css';
+import '@szhsin/react-menu/dist/transitions/slide.css';
+import IconButton from '@mui/material/IconButton';
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -108,10 +118,17 @@ function WorkPlatform({match}) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const openMenu = Boolean(anchorEl);
+    const handleClickMenu = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleCloseMenu = () => {
+      setAnchorEl(null);
+    };
 
     const [folderName, setfolderName] = useState('');
-    const [folderPrivacy, setfolderPrivacy] = useState('');
+    const [folderPrivacy, setfolderPrivacy] = useState('Public');
     const [fileorfolder, setfileorfolder] = useState('');
     const [filefolder_url, setfilefolder_url] = useState('url');
 
@@ -206,7 +223,9 @@ function WorkPlatform({match}) {
     const ClientFolder = ({name, data}) => {
         console.log("Name -> ",name);
         return(
-            <Link file={data.filefolder_url} type={data.fileType} to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner`}  style={{
+            <>
+  
+            <Link file={data.filefolder_url} type={data.fileType} to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner/folder/${data._id}`}  style={{
                 height: 80,
                 width:120,
                 borderRadius: 8,
@@ -220,8 +239,19 @@ function WorkPlatform({match}) {
                 }}>
                     {name}
                     </p>
-                
             </Link>
+            <Menu menuButton={
+            <Button style={{
+                marginLeft:100,
+                height:10,
+            }} aria-label="add an alarm">
+                ⚙️
+          </Button>} transition>
+            <MenuItem>Work Lock</MenuItem>
+            <MenuItem>Work Unlock</MenuItem>
+            <MenuItem>Clear</MenuItem>
+        </Menu>
+                </>
         )
     }
 
@@ -233,7 +263,7 @@ function WorkPlatform({match}) {
         console.log("Name -> ",name);
         if(data.fileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         return(
-            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner/showfile/${data._id}`}  style={{
+            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner/showfile/${data._id}/type/${'xlsx'}`}  style={{
                 height: 80,
                 width:120,
                 borderRadius: 8,
@@ -251,9 +281,29 @@ function WorkPlatform({match}) {
                 
             </Link>
         )
+        if(data.fileType === 'application/vnd.openxmlformats-officedocument.presentationml.presentation')
+        return(
+            <Link  style={{
+                height: 80,
+                width:120,
+                borderRadius: 8,
+                marginBottom:8,
+                marginLeft:4,
+
+            }}>
+                
+                <img src={FolderPPT} height={50}/>
+                <p style={{ 
+
+                }}>
+                    {name}
+                    </p>
+                
+            </Link>
+        )
         else if(data.fileType === 'application/pdf')
         return(
-            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner`}  style={{
+            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner/showfile/${data._id}/type/${'pdf'}`}  style={{
                 height: 80,
                 width:120,
                 borderRadius: 8,
@@ -272,7 +322,7 @@ function WorkPlatform({match}) {
             </Link>)
         else if(data.fileType === 'image/png')
         return(
-            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner`}  style={{
+            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner/showfile/${data._id}/type/${'png'}`}  style={{
                 height: 80,
                 width:120,
                 borderRadius: 8,
@@ -282,6 +332,26 @@ function WorkPlatform({match}) {
             }}>
                 
                 <img src={FolderIconImage} height={50}/>
+                <p style={{ 
+
+                }}>
+                    {name}
+                    </p>
+                
+            </Link>
+        )
+        else if(data.fileType === 'application/msword' || data.fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        return(
+            <Link to={`/superadmin/manage/companies/${match.params.id}/company/${match.params.company_id}/workplatforrm/sis/${match.params.sister_id}/inner/showfile/${data._id}/type/${'docx'}`}  style={{
+                height: 80,
+                width:120,
+                borderRadius: 8,
+                marginBottom:8,
+                marginLeft:4,
+
+            }}>
+                
+                <img src={FolderIconWord} height={50}/>
                 <p style={{ 
 
                 }}>
@@ -388,10 +458,8 @@ function WorkPlatform({match}) {
     <Form.Group className="mb-3">
     <Form.Label>Select Folder Privacy</Form.Label>
     <Form.Select onChange={(e) => setfolderPrivacy(e.target.value)} >
-      <option  value="Public" defaultValue>Public</option>
-      <option value="Private
-      
-      q2" >Private</option>
+      <option value="Public" defaultValue>Public</option>
+      <option value="Private" >Private</option>
     </Form.Select>
   </Form.Group>
   <Button onClick={createFolderHandler} variant="contained" disableElevation>

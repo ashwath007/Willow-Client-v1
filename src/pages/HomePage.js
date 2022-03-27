@@ -308,8 +308,8 @@ const HomePage = () => {
     <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id' component={SisterCompanyManage} />
     <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/sis/:sister_id' component={PlansManage} />
     <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/workplatforrm/sis/:sister_id' component={WorkPlatform} />
-    <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/workplatforrm/sis/:sister_id/inner' component={InnerWorkPlatform} />
-    <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/workplatforrm/sis/:sister_id/inner/showfile/:fileID' component={ShowFile} />
+    <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/workplatforrm/sis/:sister_id/inner/folder/:folderID' component={InnerWorkPlatform} />
+    <SuperAdminRoute exact path='/superadmin/manage/companies/:id/company/:company_id/workplatforrm/sis/:sister_id/inner/showfile/:fileID/type/:ftype' component={ShowFile} />
 
     // ** Super Admin View Works
     <SuperAdminRoute exact path='/superadmin/works' component={Works} />

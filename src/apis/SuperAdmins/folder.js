@@ -39,3 +39,13 @@ export const getAFile = (fileID) => {
         console.log(err)
     });
 }
+
+export const getFilesFoldersUnder = (folderId) => {
+    return axios.get(`https://localhost:8000/api/web/route/create/a/file/${folderId}`, { withCredentials: true }).then(res => {
+        if (res) {
+            return res;
+        }
+    }).catch(err => {
+        console.log(err)
+    });
+}

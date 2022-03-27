@@ -10,7 +10,7 @@ function ShowFile({match}) {
         getAFile(match.params.fileID).then(res => {
             console.log(res);
             setfile(res.data.file.filefolder_url);
-            settype('xlsx');
+            settype(match.params.ftype);
         })
         .catch(err => {
             console.log(err)
@@ -19,10 +19,13 @@ function ShowFile({match}) {
     
 
   return (
-    <div>ShowFile
-        {console.log("File and Folders - ",match.params.fileID)}
+      <>
+        {/* {console.log("File and Folders - ",match.params.fileID)} */}
         {file && type ? (
      <FileViewer
+            style={{
+                marginTop:50
+            }}
             fileType={type}
             filePath={file}
             /> 
@@ -33,8 +36,7 @@ function ShowFile({match}) {
         )
 
         }
-       
-    </div>
+   </>    
   )
 }
 
