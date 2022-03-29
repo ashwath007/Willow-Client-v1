@@ -25,6 +25,15 @@ export const isAlreadyAutheticated = () => {
         console.log(err)
     });
 }
+export const isAlreadyAutheticatedAdmin = () => {
+    return axios.get(`https://localhost:8000/api/web/route/check/admin`, { withCredentials: true }).then(res => {
+        if (res) {
+            return res;
+        }
+    }).catch(err => {
+        console.log(err)
+    });
+}
 
 
 // export const isAutheticated = () => {
@@ -48,7 +57,7 @@ export const adminLoginSubmit = (data) => {
         });
 }
 export const adminLogoutSubmit = () => {
-    return axios.post(`https://localhost:8000/api/web/route/logout/superadmin`, { withCredentials: true })
+    return axios.post(`https://localhost:8000/api/web/route/logout/superadmin`, { status: 'Logout' }, { withCredentials: true })
         .then(res => {
             return res;
         })
@@ -73,6 +82,18 @@ export const setAdminDetails = (data, next) => {
 }
 
 // ** -----------------------------------------------------------
+
+// Amin Logout Here
+
+export const adminAdminLogoutSubmit = () => {
+    return axios.post(`https://localhost:8000/api/web/route/logout/admin`, { status: 'Logout' }, { withCredentials: true })
+        .then(res => {
+            return res;
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
 
 
 
